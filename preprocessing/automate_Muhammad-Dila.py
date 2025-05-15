@@ -10,7 +10,7 @@ ratings = pd.read_csv("dataset_raw/ratings_raw.csv")
 books = pd.read_csv("dataset_raw/books_raw.csv", dtype=str)
 users = pd.read_csv("dataset_raw/users_raw.csv")
 
-# === Handling Missing Values & Outliers ===
+# Handling Missing Values dan Outliers
 users = users.dropna(subset=["Age"])
 users = users[(users["Age"] >= 5) & (users["Age"] <= 100)]
 
@@ -26,14 +26,14 @@ book_counts = ratings["ISBN"].value_counts()
 popular_books = book_counts[book_counts >= 3].index
 ratings = ratings[ratings["ISBN"].isin(popular_books)]
 
-# === Clean DataFrame for Modelling ===
+# Clean DataFrame
 ratings_clean = ratings[["User-ID", "ISBN", "Book-Rating"]].copy()
 ratings_clean.columns = ["user_id", "isbn", "book_rating"]
 
 # Buat user-item matrix (opsional preview)
 user_item_matrix = ratings_clean.pivot_table(index="user_id", columns="isbn", values="book_rating")
 
-# === Encoding ===
+# Encoding
 user_ids = ratings_clean["user_id"].unique().tolist()
 isbn_ids = ratings_clean["isbn"].unique().tolist()
 
@@ -46,7 +46,7 @@ ratings_clean["book"] = ratings_clean["isbn"].map(isbn_to_isbn_encoded)
 # Konversi rating jadi float
 ratings_clean["book_rating"] = ratings_clean["book_rating"].astype(np.float32)
 
-# === Splitting Dataset ===
+# Splitting Dataset
 ratings_clean = ratings_clean.sample(frac=1, random_state=42)
 
 x = ratings_clean[["user", "book"]].values
