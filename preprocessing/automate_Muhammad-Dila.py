@@ -6,9 +6,9 @@ import os
 os.makedirs("dataset_preprocessing", exist_ok=True)
 
 # Load datasets
-ratings = pd.read_csv("../dataset_raw/ratings_raw.csv")
-books = pd.read_csv("../dataset_raw/ratings_raw.csv", dtype=str)
-users = pd.read_csv("../dataset_raw/users_raw.csv")
+ratings = pd.read_csv("dataset_raw/ratings_raw.csv")
+books = pd.read_csv("dataset_raw/books_raw.csv", dtype=str)
+users = pd.read_csv("dataset_raw/users_raw.csv")
 
 # === Handling Missing Values & Outliers ===
 users = users.dropna(subset=["Age"])
